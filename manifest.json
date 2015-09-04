@@ -1,0 +1,29 @@
+{
+	"manifest_version": 2,
+
+	"name": "shareExt",
+	"description": "fast FB share API with OAuth login",
+	"version": "0.0",
+
+	"browser_action": {
+		"default_icon": "img/transparent_head_19.png",
+		"default_title": "shareExt",
+		"default_popup": "popup.html"
+	},
+
+	"permissions": [
+		"tabs"
+	],
+
+	"web_accessible_resources": [
+		"popup.js",
+		"api_manip.js",
+		"jquery.min.js"
+	],
+
+	"icons": {
+		"128": "img/transparent_head_128.png",
+		"48": "img/transparent_head_48.png",
+		"16": "img/transparent_head_16.png"
+	}
+}
