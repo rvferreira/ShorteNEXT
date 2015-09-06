@@ -12,7 +12,8 @@
 	},
 
 	"permissions": [
-		"tabs"
+		"tabs",
+		"https://shortener.godaddy.com/v1/apikey"
 	],
 
 	"web_accessible_resources": [
