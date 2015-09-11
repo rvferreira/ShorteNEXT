@@ -32,12 +32,11 @@ function requestToken(callback){
 								if (cookie) {
 									parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
 										localStorage.APIKey = res;
+										callback(res);
 									});
 									chrome.windows.remove(popupWindow.id);
-									callback();
 									chrome.tabs.onUpdated.removeListener(fetchAPIKey);
 								}
-								else localStorage.APIKey = "fuck";
 							});
 						}
 
