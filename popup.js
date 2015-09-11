@@ -1,5 +1,5 @@
 function set_iframe_content(APIKey){ //TODO remove this function
-	console.log(APIKey);
+	$('#ext-main').append("<p>Your APIKey is</p><p>"+APIKey+"</p>");
 	$('#ext-main').show();
 	// $('#ext-main').attr('src', 'http://anycom.herokuapp.com?url=&#8221');	
 }
