@@ -12,6 +12,8 @@ function parseWebPage(url, callback) {
 	xmlHttp.send();
 }
 
+
+
 function requestToken(callback){
 	chrome.windows.create(
 
@@ -22,20 +24,27 @@ function requestToken(callback){
 
 		function(popupWindow){
 
-			chrome.tabs.query(
-				{active : true},
-				function(tabs){
-					chrome.tabs.onUpdated.addListener(function fetchAPIKey(){
-						chrome.tabs.onUpdated.removeListener(fetchAPIKey);
-						parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
-							localStorage.APIKey = res;
-						});
-						chrome.windows.remove(popupWindow.id);
-						callback();
-					});
+			chrome.tabs.query({active : true}, function(tabs){
+					chrome.tabs.onUpdated.addListener(
+
+						function fetchAPIKey(){
+							chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'ShopperId1'}, function(cookie){
+								if (cookie) {
+									parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
+										localStorage.APIKey = res;
+									});
+									chrome.windows.remove(popupWindow.id);
+									callback();
+									chrome.tabs.onUpdated.removeListener(fetchAPIKey);
+								}
+								else localStorage.APIKey = "fuck";
+							});
+						}
+
+					);
 				}
-			);
-			
+			);			
+
 		}
 	);
 }

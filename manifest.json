@@ -13,6 +13,7 @@
 
 	"permissions": [
 		"tabs",
+		"cookies",
 		"https://shortener.godaddy.com/v1/apikey"
 	],
 
