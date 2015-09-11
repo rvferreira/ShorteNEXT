@@ -18,9 +18,15 @@ function startApp(){
 	});
 
 	$('select').material_select();
-	$('#shorten-button').click(function shorten(){
+	$('#shorten-button').click(function(){
 		shortenCurrentURL(setCardName);
 	});
+
+	$('#custom-shorten-button').click(function(){
+		customShortenCurrentURL(setCardName, $('#custom-url-form').serialize());
+	});
+	
+
 }
 
 document.addEventListener('DOMContentLoaded', function(){ 

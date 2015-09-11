@@ -19,14 +19,15 @@
 	<!-- <iframe id="ext-main"> -->
 	<div class="section header">
 		<div class="container center">
-			<a id="shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten url</a>
+			<a id="shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten URL</a>
 		</div>
 	</div>
 
 	<div class="section green lighten-5">
 		<div class="container">
-			<div class="row">
-				<div class="col offset-s1 s10">
+			<div class="row valign-wrapper">
+				<div class="col s1 center"><!-- <i class="mdi material-icons left mdi-chevron-left"></i> --></div>
+				<div class="col s10">
 					<div class="card">
 						<div class="card-content">
 							<span id="short-url" class="card-title activator grey-text text-darken-4">x.co/test</span>
@@ -48,27 +49,31 @@
 						</div>
 					</div>
 				</div>
+				<div class="col valign s1"><!-- <i class="mdi material-icons left mdi-chevron-right"> --></div>
 			</div>
 		</div>
 	</div>
 
 	<div class="section">
 		<div class="container">
+			<h5>Custom URL</h5>
 			<div class="row">
-				<form class="col s12">
+				<form id="custom-url-form" class="col s12" action="#" method="post">
 					<div class="row">
 						<div class="input-field col s6 condensed black-text">
-							<select>
-								<option value="" disabled selected>Domain</option>
-								<option value="1">http://x.co/</option>
-								<option value="2">http://go2l.ink/</option>
+							<select name="domain">
+								<option value="http://go2l.ink/">http://go2l.ink/</option>
+								<option value="http://x.co/">http://x.co/</option>
 							</select>
-							<!-- <label>Domain</label> -->
+							<label>Domain</label>
 						</div>
 						<div class="input-field col s6">
-							<input id="custom-url-code" type="text" class="validate">
+							<input name="code" id="custom-url-code" type="text" class="validate">
 							<label for="custom-url-code">Code</label>
 						</div>
+					</div>
+					<div class="row center">
+						<a id="custom-shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten Custom URL</a>
 					</div>
 				</form>
 			</div>

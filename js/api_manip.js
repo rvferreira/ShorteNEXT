@@ -58,3 +58,11 @@ function shortenCurrentURL(callback){
 		parseWebPage(shortenAPIRequest, callback);
 	});
 }
+
+function customShortenCurrentURL(callback, optional_parameters){
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + tabs[0].url + '&' + optional_parameters;
+		localStorage.shortenedURL = tabs[0].url;
+		parseWebPage(shortenAPIRequest, callback);
+	});
+}
