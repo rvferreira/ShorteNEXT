@@ -60,6 +60,10 @@ function startApp(){
 			customShortenCurrentURL(setCardName, decodeURI($('#custom-url-form').serialize()));
 		});
 
+		$('#short-url').click(function(){
+			copyURLToClipboard(localStorage.shortURL);
+		});
+
 		$('#clipboard-copy-btn').click(function(){
 			copyURLToClipboard(localStorage.shortURL);
 		});
