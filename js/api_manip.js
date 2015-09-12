@@ -52,7 +52,7 @@ function requestAPIKey(callback){
 
 function shortenCurrentURL(callback){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + tabs[0].url;
+		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + encodeURI(tabs[0].url);
 		localStorage.shortenedURLreq = tabs[0].url;
 		parseWebPage(shortenAPIRequest, callback);
 	});
@@ -60,7 +60,7 @@ function shortenCurrentURL(callback){
 
 function customShortenCurrentURL(callback, optional_parameters){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + tabs[0].url + '&' + optional_parameters;
+		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + encodeURI(tabs[0].url) + '&' + optional_parameters;
 		localStorage.shortenedURLreq = tabs[0].url;
 		parseWebPage(shortenAPIRequest, callback);
 	});
