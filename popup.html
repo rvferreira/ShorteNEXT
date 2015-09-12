@@ -12,12 +12,15 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
 	
+	<script type="text/javascript" src="js/social_media.js"></script>
 	<script type="text/javascript" src="js/popup.js"></script>
 	<script type="text/javascript" src="js/api_manip.js"></script>
 </head>
 <body>
 	<div id="non-api-content-wrapper">
+		<!-- TODO non APIKey page -->
 	</div>
+
 	<div id="content-wrapper">
 		<div class="section header">
 			<div class="container center">
@@ -32,18 +35,19 @@
 					<div class="col s10">
 						<div class="card tiny">
 							<div class="card-content">
-								<span id="short-url" class="card-title activator grey-text text-darken-4 truncate">http://x.co/shortlnk</span>
-								<p id="shortened-url" class="flow-text grey-text text-lighten-2 truncate">http://www.full.link.example</p>
+								<span id="short-url" class="card-title activator grey-text text-darken-4 truncate"></span>
+								<p id="shortened-url" class="flow-text grey-text text-lighten-2 truncate"></p>
 							</div>
 							<div class="card-action">
 								<a href="#" id="clipboard-copy-btn" class="green-text text-lighten-2"><i class="mdi mdi-clipboard-arrow-down small"></i></a>
-								<a class="green-text text-lighten-2" href="#">
+								<!-- TODO sharing -->
+								<a id="fb-share-btn" class="green-text text-lighten-2" href="#">
 									<i class="small mdi mdi-facebook-box"></i>
 								</a>
-								<a class="green-text text-lighten-2" href="#">
+								<a id="tw-share-btn" class="green-text text-lighten-2" href="#">
 									<i class="small mdi mdi-twitter-box"></i>
 								</a>
-								<a class="green-text text-lighten-2" href="#">
+								<a id="in-share-btn" class="green-text text-lighten-2" href="#">
 									<i class="small mdi mdi-linkedin-box"></i>
 								</a>
 							</div>
@@ -75,9 +79,9 @@
 						<div class="row center">
 							<a id="custom-shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten Custom URL</a>
 						</div>
-						<div class="row">
-							<a href="#" id="refresh-ext-button" class="grey-text text-lighten-2 right"><i class="mdi mdi-refresh small"></i></a>
-						</div>
+						<!-- <div class="row">
+							<a href="#" id="refresh-ext-button" class="grey-text text-lighten-2 right"><i class="mdi mdi-refresh small"></i></a> TODO finish refresh button location
+						</div> -->
 
 					</form>
 				</div>

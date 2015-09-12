@@ -1,18 +1,18 @@
 TOAST_TIME = 1400
+NULL_URL = "none"
 
-function copyTextToClipboard(text) {
-	var copyFrom = $('<textarea/>');
-	copyFrom.text(text);
-	$('body').append(copyFrom);
-	copyFrom.select();
-	document.execCommand('copy');
-	copyFrom.remove();
-	Materialize.toast('Copied!', TOAST_TIME);
-}
-
-function apiKeyObtained(APIKey){ //TODO remove this function
-	console.log("APIKey: " + APIKey);	
-	Materialize.toast('API Key Successfully obtained!', TOAST_TIME);
+function copyURLToClipboard(url) {
+	if (url != NULL_URL) {
+		var copyFrom = $('<textarea/>');
+		copyFrom.text(url);
+		$('body').append(copyFrom);
+		copyFrom.select();
+		document.execCommand('copy');
+		copyFrom.remove();
+		Materialize.toast('Copied!', TOAST_TIME);
+	} else {
+		Materialize.toast('Nothing to copy!', TOAST_TIME);
+	}
 }
 
 function setCardName(newName){
@@ -29,41 +29,61 @@ function setCardName(newName){
 		return;
 	}
 
-	localStorage.shortenedURL = obj.fields[0].code;
-	localStorage.shortURL = "Error!";
+	$('#short-url').text("Error!");
+	$('#shortened-url').text(obj.fields[0].code);
 
-	$('#short-url').text(localStorage.shortURL);
-	$('#shortened-url').text(localStorage.shortenedURL);
+	localStorage.shortenedURL = NULL_URL;
+	localStorage.shortURL = NULL_URL;	
 }
 
 function startApp(){
 
 	if (localStorage.APIKey && localStorage.APIKey!='Unauthorized'){
-		apiKeyObtained(localStorage.APIKey + " (from localStorage)");
-	}
-	else chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
-		requestAPIKey(apiKeyObtained);
-	});
+
+		/*Init text fields*/
+		if (localStorage.shortURL != NULL_URL){	
+			$('#short-url').text(localStorage.shortURL);
+			$('#shortened-url').text(localStorage.shortenedURL);	
+		} else {
+			$('#short-url').text("http://x.co/shortlnk");
+			$('#shortened-url').text("http://www.full.link.example");	
+		}
+
+		/*BTNs init*/
 
 		$('select').material_select();
 		$('#shorten-button').click(function(){
 			shortenCurrentURL(setCardName);
 		});
 
-		$('#short-url').click(function(){
-			copyTextToClipboard($('#short-url').text());
-		});
-
-		$('#clipboard-copy-btn').click(function(){
-			copyTextToClipboard($('#short-url').text());
-		});
-
 		$('#custom-shorten-button').click(function(){
 			customShortenCurrentURL(setCardName, decodeURI($('#custom-url-form').serialize()));
 		});
 
-	}
+		$('#clipboard-copy-btn').click(function(){
+			copyURLToClipboard(localStorage.shortURL);
+		});
 
-	document.addEventListener('DOMContentLoaded', function(){ 
-		startApp();
+		/*External APIs*/
+
+		$('#fb-share-btn').click(function(){
+			fbShare(localStorage.shortURL);
+		});
+
+		$('#tw-share-btn').click(function(){
+			twShare(localStorage.shortURL);
+		});
+
+		$('#in-share-btn').click(function(){
+			inShare(localStorage.shortURL);
+		});
+
+	} else chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
+		requestAPIKey(startApp);
 	});
+
+}
+
+document.addEventListener('DOMContentLoaded', function(){ 
+	startApp();
+});
