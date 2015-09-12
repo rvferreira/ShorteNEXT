@@ -1,4 +1,5 @@
 function parseWebPage(url, callback) {
+	console.log(decodeURI(url));
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange=function()
 	{
@@ -54,7 +55,7 @@ function requestAPIKey(callback){
 function shortenCurrentURL(callback){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + tabs[0].url;
-		localStorage.shortenedURL = tabs[0].url;
+		localStorage.shortenedURLreq = tabs[0].url;
 		parseWebPage(shortenAPIRequest, callback);
 	});
 }
@@ -62,7 +63,7 @@ function shortenCurrentURL(callback){
 function customShortenCurrentURL(callback, optional_parameters){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + tabs[0].url + '&' + optional_parameters;
-		localStorage.shortenedURL = tabs[0].url;
+		localStorage.shortenedURLreq = tabs[0].url;
 		parseWebPage(shortenAPIRequest, callback);
 	});
 }

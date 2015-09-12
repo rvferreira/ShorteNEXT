@@ -16,66 +16,71 @@
 	<script type="text/javascript" src="js/api_manip.js"></script>
 </head>
 <body>
-	<!-- <iframe id="ext-main"> -->
-	<div class="section header">
-		<div class="container center">
-			<a id="shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten URL</a>
-		</div>
+	<div id="non-api-content-wrapper">
 	</div>
-
-	<div class="section green lighten-5">
-		<div class="container">
-			<div class="row valign-wrapper">
-				<div class="col s1 center"><!-- <i class="mdi material-icons left mdi-chevron-left"></i> --></div>
-				<div class="col s10">
-					<div class="card">
-						<div class="card-content">
-							<span id="short-url" class="card-title activator grey-text text-darken-4">x.co/test</span>
-							<p id="shortened-url" class="flow-text grey-text text-lighten-2">www.google.com.br</p>
-						</div>
-						<div class="card-action">
-							<a class="green-text text-lighten-2" href="">
-								<i class="small mdi mdi-facebook-box"></i>
-							</a>
-							<a class="green-text text-lighten-2" href="">
-								<i class="small mdi mdi-twitter-box"></i>
-							</a>
-							<a class="green-text text-lighten-2" href="">
-								<i class="small mdi mdi-google-plus-box"></i>
-							</a>
-							<a class="green-text text-lighten-2" href="">
-								<i class="small mdi mdi-linkedin-box"></i>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col valign s1"><!-- <i class="mdi material-icons left mdi-chevron-right"> --></div>
+	<div id="content-wrapper">
+		<div class="section header">
+			<div class="container center">
+				<a id="shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten URL</a>
 			</div>
 		</div>
-	</div>
 
-	<div class="section">
-		<div class="container">
-			<h5>Custom URL</h5>
-			<div class="row">
-				<form id="custom-url-form" class="col s12" action="#" method="post">
-					<div class="row">
-						<div class="input-field col s6 condensed black-text">
-							<select name="domain">
-								<option value="http://go2l.ink/">http://go2l.ink/</option>
-								<option value="http://x.co/">http://x.co/</option>
-							</select>
-							<label>Domain</label>
-						</div>
-						<div class="input-field col s6">
-							<input name="code" id="custom-url-code" type="text" class="validate">
-							<label for="custom-url-code">Code</label>
+		<div class="section green lighten-5">
+			<div class="container">
+				<div class="row valign-wrapper">
+					<div class="col s1 center"><!-- <i class="mdi material-icons left mdi-chevron-left"></i> --></div>
+					<div class="col s10">
+						<div class="card tiny">
+							<div class="card-content">
+								<span id="short-url" class="card-title activator grey-text text-darken-4 truncate">http://x.co/shortlnk</span>
+								<p id="shortened-url" class="flow-text grey-text text-lighten-2 truncate">http://www.full.link.example</p>
+							</div>
+							<div class="card-action">
+								<a href="#" id="clipboard-copy-btn" class="green-text text-lighten-2"><i class="mdi mdi-clipboard-arrow-down small"></i></a>
+								<a class="green-text text-lighten-2" href="#">
+									<i class="small mdi mdi-facebook-box"></i>
+								</a>
+								<a class="green-text text-lighten-2" href="#">
+									<i class="small mdi mdi-twitter-box"></i>
+								</a>
+								<a class="green-text text-lighten-2" href="#">
+									<i class="small mdi mdi-linkedin-box"></i>
+								</a>
+							</div>
 						</div>
 					</div>
-					<div class="row center">
-						<a id="custom-shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten Custom URL</a>
-					</div>
-				</form>
+					<div class="col valign s1"><!-- <i class="mdi material-icons left mdi-chevron-right"> --></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="container">
+				<h5>Custom URL</h5>
+				<div class="row">
+					<form id="custom-url-form" class="col s12" action="#" method="post">
+						<div class="row">
+							<div class="input-field col s6 condensed black-text">
+								<select name="domain">
+									<option value="http://go2l.ink/">http://go2l.ink/</option>
+									<option value="http://x.co/">http://x.co/</option>
+								</select>
+								<label>Domain</label>
+							</div>
+							<div class="input-field col s6">
+								<input name="code" id="custom-url-code" type="text" class="validate">
+								<label for="custom-url-code">Code</label>
+							</div>
+						</div>
+						<div class="row center">
+							<a id="custom-shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten Custom URL</a>
+						</div>
+						<div class="row">
+							<a href="#" id="refresh-ext-button" class="grey-text text-lighten-2 right"><i class="mdi mdi-refresh small"></i></a>
+						</div>
+
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
