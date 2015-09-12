@@ -42,7 +42,7 @@ function startApp(){
 		$("#content-wrapper").show();
 
 		/*Init text fields*/
-		if (localStorage.shortURL != NULL_URL){	
+		if (localStorage.shortURL && localStorage.shortURL != NULL_URL){	
 			$('#short-url').text(localStorage.shortURL);
 			$('#shortened-url').text(localStorage.shortenedURL);	
 		} else {
