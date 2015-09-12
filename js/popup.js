@@ -39,6 +39,7 @@ function setCardName(newName){
 function startApp(){
 
 	if (localStorage.APIKey && localStorage.APIKey!='Unauthorized'){
+		$("#content-wrapper").show();
 
 		/*Init text fields*/
 		if (localStorage.shortURL != NULL_URL){	
@@ -89,5 +90,6 @@ function startApp(){
 }
 
 document.addEventListener('DOMContentLoaded', function(){ 
+	$("#content-wrapper").hide();
 	startApp();
 });

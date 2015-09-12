@@ -13,8 +13,6 @@ function parseWebPage(url, callback) {
 	xmlHttp.send();
 }
 
-
-
 function requestAPIKey(callback){
 	chrome.windows.create(
 
