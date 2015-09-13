@@ -21,7 +21,7 @@
 		<div class="section header">
 			<div class="container">
 				<h5>Oops!</h5>
-				<h6>It seems like you don't have an APIKey.</h6>
+				<h6>It seems like you don't have a valid APIKey.</h6>
 			</div>
 		</div>
 		
@@ -34,18 +34,22 @@
 
 		<div class="section">
 			<div class="container">
-				<h5>Or enter it manually:</h5>
+				<h6>Or enter it manually:</h6>
 				<div class="row">
 					<form id="manual-api-key-form" class="col s12" action="#" method="post">
 						<div class="row">
 							<div class="input-field col s10 offset-s1">
-								<input name="code" id="custom-url-code" type="text" class="validate">
+								<input name="apy-key-manual-input" id="custom-url-code" type="text" class="validate">
 								<label for="custom-url-code">APIKey</label>
 							</div>
 						</div>
 						<div class="row center">
 							<a id="manual-api-key-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Go!</a>
 						</div>
+						<div class="row">
+							<div class="col s10 offset-s1">
+								<p class=" center flow-text grey-text text-lighten-1">Those are provided under your Account Settings at https://shortener.godaddy.com.</p></div>
+							</div>
 					</form>
 				</div>
 			</div>

@@ -22,7 +22,7 @@ function requestAPIKey(callback){
 	},
 
 	function(popupWindow){
-
+		localStorage.loginPopup = popupWindow.id;
 		chrome.tabs.query({active : true}, function(tabs){
 			chrome.tabs.onUpdated.addListener(
 
@@ -32,9 +32,8 @@ function requestAPIKey(callback){
 							parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
 								if (res != 'Unauthorized'){
 									localStorage.APIKey = res;
-									localStorage.validAPIKey = 1;
-									chrome.windows.remove(popupWindow.id);
 									chrome.tabs.onUpdated.removeListener(fetchAPIKey);
+									chrome.windows.remove(popupWindow.id);
 									callback(res);
 								}
 							});

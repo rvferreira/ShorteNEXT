@@ -48,5 +48,3 @@ function twShare(shortURL){
 	};	
 	share(reqObj, shortURL);
 }
-
-//&url=http%3A%2F%2FURL_TO_SHARE
