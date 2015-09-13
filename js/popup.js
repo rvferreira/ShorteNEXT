@@ -3,8 +3,11 @@ CARD_SWITCH_TIME = 500
 NULL_URL = "none"
 
 function apiKeyObtained(){
-	Materialize.toast("We've got an APIKey!", TOAST_TIME);
-	startApp();
+	if (localStorage.appStarted == 0){
+		localStorage.appStarted = 1;
+		Materialize.toast("We've got an APIKey!", TOAST_TIME);
+		startApp();
+	}
 }
 
 function copyURLToClipboard(url) {
@@ -122,5 +125,6 @@ function startApp(){
 document.addEventListener('DOMContentLoaded', function(){ 
 	$("#content-wrapper").hide();
 	$("#non-api-content-wrapper").hide();
+	localStorage.appStarted = 0;
 	startApp();
 });
