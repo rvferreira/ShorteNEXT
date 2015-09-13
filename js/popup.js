@@ -1,5 +1,11 @@
 TOAST_TIME = 1400
+CARD_SWITCH_TIME = 500
 NULL_URL = "none"
+
+function apiKeyObtained(){
+	Materialize.toast("We've got an APIKey!", TOAST_TIME);
+	startApp();
+}
 
 function copyURLToClipboard(url) {
 	if (url != NULL_URL) {
@@ -16,29 +22,47 @@ function copyURLToClipboard(url) {
 }
 
 function setCardName(newName){
+	$("#short-url-container").animate({
+		left: parseInt(-$("#content-wrapper").outerWidth())
+	}, CARD_SWITCH_TIME, "easeInOutQuad", function(){
+		try {
+			var obj = JSON.parse(newName);
+		} catch (e) {
+			localStorage.shortenedURL = localStorage.shortenedURLreq;
+			localStorage.shortURL = newName;
+
+			$('#short-url').text(localStorage.shortURL);
+			$('#shortened-url').text(localStorage.shortenedURL);
+
+			return;
+		}
+
+		$('#short-url').text("Error!");
+		$('#shortened-url').text(obj.fields[0].code);
+
+		localStorage.shortenedURL = NULL_URL;
+		localStorage.shortURL = NULL_URL;
+	});	
 	
-	try {
-		var obj = JSON.parse(newName);
-	} catch (e) {
-		localStorage.shortenedURL = localStorage.shortenedURLreq;
-		localStorage.shortURL = newName;
+	$("#short-url-container").animate({
+		left: parseInt($("#content-wrapper").outerWidth())
+	}, 0, "easeInOutQuad", function(){
 
-		$('#short-url').text(localStorage.shortURL);
-		$('#shortened-url').text(localStorage.shortenedURL);
-
-		return;
-	}
-
-	$('#short-url').text("Error!");
-	$('#shortened-url').text(obj.fields[0].code);
-
-	localStorage.shortenedURL = NULL_URL;
-	localStorage.shortURL = NULL_URL;	
+		$("#short-url-container").animate({
+			left: 0
+		}, CARD_SWITCH_TIME, "easeInOutQuad", function(){});
+		
+	});
 }
 
 function startApp(){
 
-	if (localStorage.APIKey && localStorage.APIKey!='Unauthorized'){
+	// localStorage.removeItem("APIKey");
+
+	if (localStorage.validAPIKey == 1 && localStorage.getItem("APIKey") != null && localStorage.APIKey!='Unauthorized'){
+		console.log(localStorage.APIKey);
+
+		$("#non-api-content-wrapper").hide();
 		$("#content-wrapper").show();
 
 		/*Init text fields*/
@@ -84,12 +108,19 @@ function startApp(){
 		});
 
 	} else chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
-		requestAPIKey(startApp);
+		$('#manual-api-key-btn').click(function(){
+			console.log = $('#manual-api-key-form').serialize();
+			apiKeyObtained();
+		});
+
+		$("#non-api-content-wrapper").show();
+		requestAPIKey(apiKeyObtained);
 	});
 
 }
 
 document.addEventListener('DOMContentLoaded', function(){ 
 	$("#content-wrapper").hide();
+	$("#non-api-content-wrapper").hide();
 	startApp();
 });

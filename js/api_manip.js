@@ -1,5 +1,4 @@
 function parseWebPage(url, callback) {
-	console.log(decodeURI(url));
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange=function()
 	{
@@ -16,38 +15,37 @@ function parseWebPage(url, callback) {
 function requestAPIKey(callback){
 	chrome.windows.create(
 
-		{
-			'url' : 'https://sso.godaddy.com/login?realm=idp&app=shortener&path=/',
-			'width' : 580,
-			'height' : 700
-		},
+	{
+		'url' : 'https://sso.godaddy.com/login?realm=idp&app=shortener&path=/',
+		'width' : 580,
+		'height' : 700
+	},
 
-		function(popupWindow){
+	function(popupWindow){
 
-			chrome.tabs.query({active : true}, function(tabs){
-					chrome.tabs.onUpdated.addListener(
+		chrome.tabs.query({active : true}, function(tabs){
+			chrome.tabs.onUpdated.addListener(
 
-						function fetchAPIKey(){
-							chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'ShopperId1'}, function(cookie){
-								if (cookie) {
-									parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
-										if (res != 'Unauthorized'){
-											localStorage.APIKey = res;
-											callback(res);
-											chrome.windows.remove(popupWindow.id);
-											chrome.tabs.onUpdated.removeListener(fetchAPIKey);
-										}
-									});
+				function fetchAPIKey(){
+					chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'ShopperId1'}, function(cookie){
+						if (cookie) {
+							parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
+								if (res != 'Unauthorized'){
+									localStorage.APIKey = res;
+									localStorage.validAPIKey = 1;
+									chrome.windows.remove(popupWindow.id);
+									chrome.tabs.onUpdated.removeListener(fetchAPIKey);
+									callback(res);
 								}
 							});
 						}
-
-					);
+					});
 				}
-			);			
 
-		}
-	);
+			);
+		});			
+
+	});
 }
 
 function shortenCurrentURL(callback){
