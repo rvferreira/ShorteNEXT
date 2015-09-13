@@ -1,5 +1,5 @@
 TOAST_TIME = 1400
-CARD_SWITCH_TIME = 500
+CARD_SWITCH_TIME = 300
 NULL_URL = "none"
 
 function apiKeyObtained(){
@@ -27,7 +27,7 @@ function copyURLToClipboard(url) {
 function setCardName(newName){
 	$("#short-url-container").animate({
 		left: parseInt(-$("#content-wrapper").outerWidth())
-	}, CARD_SWITCH_TIME, "easeInOutQuad", function(){
+	}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
 		try {
 			var obj = JSON.parse(newName);
 		} catch (e) {
@@ -49,11 +49,11 @@ function setCardName(newName){
 	
 	$("#short-url-container").animate({
 		left: parseInt($("#content-wrapper").outerWidth())
-	}, 0, "easeInOutQuad", function(){
+	}, 0, "easeInOutCubic", function(){
 
 		$("#short-url-container").animate({
 			left: 0
-		}, CARD_SWITCH_TIME, "easeInOutQuad", function(){});
+		}, CARD_SWITCH_TIME, "easeInOutCubic", function(){});
 		
 	});
 }
