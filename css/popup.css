@@ -1,15 +1,13 @@
 @CHARSET "ISO-8859-1";
 
 html {
-	height: 530px;
-	width: 320px;
-	overflow: hidden;
+  width: 320px
 }
 
 body {
-	height: 530px;
+  height: 350px; /*560 for non-api-key*/
 	width: 320px;
-	overflow: hidden
+	overflow: hidden;
 }
 
    /* label focus color */
@@ -39,3 +37,16 @@ body {
    .dropdown-content li>span {
      color: #ff7043 !important;
    }
+
+#non-api-content-wrapper {
+  height: 340px;
+  max-height: 340px;
+}
+
+.mobile {
+  position: relative;
+}
+
+  #shortener-output {
+    z-index: 2
+  }

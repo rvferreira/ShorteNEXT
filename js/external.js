@@ -27,7 +27,7 @@ function requestAPIKey(callback){
 			chrome.tabs.onUpdated.addListener(
 
 				function fetchAPIKey(){
-					chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'ShopperId1'}, function(cookie){
+					chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'auth_idp'}, function(cookie){
 						if (cookie) {
 							parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
 								if (res != 'Unauthorized'){
@@ -57,7 +57,8 @@ function shortenCurrentURL(callback){
 
 function customShortenCurrentURL(callback, optional_parameters){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + encodeURI(tabs[0].url) + '&' + optional_parameters;
+		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + '&' + optional_parameters;
+		console.log(shortenAPIRequest);
 		localStorage.shortenedURLreq = tabs[0].url;
 		parseWebPage(shortenAPIRequest, callback);
 	});

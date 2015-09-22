@@ -7,7 +7,7 @@ function share(jsonObj, shortURL){
 			chrome.windows.create(jsonObj, function(popupWindow){
 				chrome.tabs.query({active : true}, function(tabs){
 					chrome.tabs.onUpdated.addListener(function(){
-					//if posted, close window
+					//TODO if posted, close window
 				});
 				});	
 			}

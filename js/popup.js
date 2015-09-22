@@ -1,23 +1,22 @@
 TOAST_TIME = 1400
 CARD_SWITCH_TIME = 300
+FADE_TRANSITIONS_TIME = 400
 NULL_URL = "none"
 
 function resetApp(){
 	localStorage.shortenedURL = NULL_URL;
 	localStorage.shortURL = NULL_URL;
-	$('#non-api-content-wrapper *').off();
-	$('#content-wrapper *').off();
-	$('select').material_select('destroy');
-	$('#non-api-content-wrapper').hide();
-	$('#content-wrapper').hide();
 	location.reload();
 }
 
 function apiKeyObtained(){
 	if (localStorage.validAPIKey != 1){
 		localStorage.validAPIKey = 1;
-		Materialize.toast("We've got an APIKey!", TOAST_TIME);
-		startApp();
+		Materialize.toast("We've got an APIKey!", TOAST_TIME * 1.5);
+		$("#non-api-content-wrapper").fadeTo(FADE_TRANSITIONS_TIME, 0.0, function(){
+			localStorage.recentKey = 1;
+			startApp();
+		});
 	}
 }
 
@@ -36,22 +35,50 @@ function copyURLToClipboard(shortURL) {
 }
 
 function setCardName(shortURL, shortenedURL){
-	$("#short-url-container").animate({
+	$('#short-url').text(shortURL);
+	$('#shortened-url').text(shortenedURL);
+
+	$("#shortener-input").animate({
 		left: parseInt(-$("#content-wrapper").outerWidth())
 	}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
-		$('#short-url').text(shortURL);
-		$('#shortened-url').text(shortenedURL);
-	});	
-	
-	$("#short-url-container").animate({
-		left: parseInt($("#content-wrapper").outerWidth())
-	}, 0, "easeInOutCubic", function(){
+		fix_size = parseInt($("#shortener-ui").outerHeight());
+		console.log(fix_size);
+		$("#shortener-input").hide();
 
-		$("#short-url-container").animate({
-			left: 0
-		}, CARD_SWITCH_TIME, "easeInOutCubic", function(){});
-		
-	});
+		$("#shortener-output").animate({
+			left: parseInt($("#content-wrapper").outerWidth())
+		}, 0, "easeInOutCubic", function(){
+
+			$("#shortener-output").show();
+			// $("#shortener-ui").height(fix_size);
+			$("#shortener-output").animate({
+				left: 0
+			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
+			});
+
+		});
+
+	});	
+}
+
+function shortenAnother(){
+	$("#shortener-output").animate({
+		left: parseInt($("#content-wrapper").outerWidth())
+	}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
+		$("#shortener-output").hide();
+
+		$("#shortener-input").animate({
+			left: parseInt(-$("#content-wrapper").outerWidth())
+		}, 0, "easeInOutCubic", function(){
+
+			$("#shortener-input").show();
+			$("#shortener-input").animate({
+				left: 0
+			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){});
+
+		});
+
+	});	
 }
 
 function checkGeneratedURL(newName){
@@ -61,7 +88,9 @@ function checkGeneratedURL(newName){
 
 		if (newName == "Unauthorized") {
 			localStorage.validAPIKey = 0;
-			resetApp();
+			$("#content-wrapper").fadeOut(FADE_TRANSITIONS_TIME, function(){
+				resetApp();
+			});
 
 			return;
 		}
@@ -85,8 +114,20 @@ function startApp(){
 
 	if (localStorage.validAPIKey == 1 && localStorage.getItem("APIKey") != null && localStorage.APIKey!='Unauthorized'){
 		
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+			$("#long-url").val(tabs[0].url);
+		});
+
 		$("#non-api-content-wrapper").hide();
-		$("#content-wrapper").show();
+		if (localStorage.recentKey == 1){
+			$("body").animate({height:350}, FADE_TRANSITIONS_TIME, function(){
+				$("#content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
+			});
+			localStorage.removeItem("recentKey");
+		}
+		else {
+			$("#content-wrapper").show();
+		}
 
 		/*Init text fields*/
 		if (localStorage.shortURL && localStorage.shortURL != NULL_URL){	
@@ -100,12 +141,13 @@ function startApp(){
 		/*BTNs init*/
 
 		$('select').material_select();
-		$('#shorten-button').click(function(){
-			shortenCurrentURL(checkGeneratedURL);
+
+		$('#shorten-btn').click(function(){
+			customShortenCurrentURL(checkGeneratedURL, decodeURI($('#custom-url-form').serialize()));
 		});
 
-		$('#custom-shorten-button').click(function(){
-			customShortenCurrentURL(checkGeneratedURL, decodeURI($('#custom-url-form').serialize()));
+		$('#shorten-another-btn').click(function(){
+			shortenAnother();
 		});
 
 		$('#short-url').click(function(){
@@ -138,23 +180,28 @@ function startApp(){
 			var inputKey = $('#manual-api-key-form').serialize().slice($('#manual-api-key-form').serialize().search("=")+1);
 			if (inputKey.length > 0){
 				localStorage.APIKey = inputKey;
-				chrome.windows.remove(parseInt(localStorage.loginPopup));
 				localStorage.removeItem("loginPopup");
 				apiKeyObtained();
 			}
 		});
 
+		$('#login-btn').click(function(){
+			requestAPIKey(apiKeyObtained);
+		});
+
 		localStorage.shortenedURL = NULL_URL;
 		localStorage.shortURL = NULL_URL;
 
-		$("#non-api-content-wrapper").show();
-		requestAPIKey(apiKeyObtained);
+		$("body").animate({height:560}, FADE_TRANSITIONS_TIME, function(){
+			$("#non-api-content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
+		});
 	});
 
 }
 
 document.addEventListener('DOMContentLoaded', function(){ 
 	$("#non-api-content-wrapper").hide();
+	$("#shortener-output").hide();
 	$("#content-wrapper").hide();
 	localStorage.appStarted = 0;
 	startApp();

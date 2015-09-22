@@ -14,20 +14,25 @@
 	
 	<script type="text/javascript" src="js/social_media.js"></script>
 	<script type="text/javascript" src="js/popup.js"></script>
-	<script type="text/javascript" src="js/api_manip.js"></script>
+	<script type="text/javascript" src="js/external.js"></script>
+
+
 </head>
 <body>
 	<div id="non-api-content-wrapper">
-		<div class="section header">
+		<div class="section">
 			<div class="container">
-				<h5>Oops!</h5>
+				<h5 style="display:inline">Oops!</h5>
 				<h6>It seems like you don't have a valid APIKey.</h6>
 			</div>
 		</div>
 		
 		<div class="section">
 			<div class="container">
-				<p class="center flow-text orange-text text-lighten-1">Please, login into the window we've openned for you, so we can automatically fetch it.</p>
+				<p class="center flow-text orange-text text-lighten-1">If you want us to fetch that for you, please click the button below and login into your GoDaddy account.</p>
+			</div>
+			<div class="container center">
+				<a id="login-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-login right"></i>Login</a>
 			</div>
 		</div>
 		
@@ -50,71 +55,81 @@
 							<div class="col s10 offset-s1">
 								<p class=" center flow-text grey-text text-lighten-1">Those are provided under your Account Settings at https://shortener.godaddy.com.</p></div>
 							</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div id="content-wrapper">
-		<div class="section header">
-			<div class="container center">
-				<a id="shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten URL</a>
-			</div>
-		</div>
 
-		<div class="section orange lighten-1">
-			<div class="container">
-				<div class="row valign-wrapper">
-					<div class="col s10 offset-s1">
-						<div id="short-url-container" class="card tiny">
-							<div class="card-content">
-								<span id="short-url" class="card-title activator grey-text text-darken-4 truncate"></span>
-								<p id="shortened-url" class="flow-text grey-text text-lighten-1 truncate"></p>
+		<div class="section">
+			<div class="container" >
+				<h5>Go Short</h5>
+			</div>
+		</div>		
+		<div id="shortener-ui" class="section">
+			<div id="shortener-input" class="mobile">
+				<div class="container">
+					<div class="row">
+						<form id="custom-url-form" class="col s12" action="#" method="post">
+							<div class="row">
+								<div class="input-field col s12">
+									<input value="Long URL" name="url" id="long-url" type="text" class="validate" required>
+									<label class="active" for="long-url">Long URL</label>
+								</div>
 							</div>
-							<div class="card-action">
-								<a href="#" id="clipboard-copy-btn" class="green-text text-accent-4"><i class="mdi mdi-clipboard-arrow-down small"></i></a>
-								<a id="fb-share-btn" class="green-text text-accent-4" href="#">
-									<i class="small mdi mdi-facebook-box"></i>
-								</a>
-								<a id="tw-share-btn" class="green-text text-accent-4" href="#">
-									<i class="small mdi mdi-twitter-box"></i>
-								</a>
-								<a id="in-share-btn" class="green-text text-accent-4" href="#">
-									<i class="small mdi mdi-linkedin-box"></i>
-								</a>
+							<div class="row">
+								<div class="input-field col s6 condensed black-text">
+									<select name="domain">
+										<option value="http://go2l.ink/">http://go2l.ink/</option>
+										<option value="http://x.co/">http://x.co/</option>
+									</select>
+									<label>Domain</label>
+								</div>
+								<div class="input-field col s6">
+									<input value="" name="code" id="custom-url" type="text" class="validate">
+									<label for="custom-url">Custom URL</label>
+								</div>
 							</div>
+							<div class="card-action left">
+								<a id="shorten-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Go Short!</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div id="shortener-output" class="mobile">
+				<div class="container">
+					<div class="row">
+						<div class="col s12">
+							<h5 id="short-url" class="grey-text text-darken-4" action="#" method="post"></h5>
+							<p id="shortened-url" class="flow-text grey-text text-lighten-1 truncate"></p>
+						</div>
+					</div>
+					<div class="row">
+						<a href="#" id="clipboard-copy-btn" class="green-text text-accent-4 col s3"><i class="mdi mdi-clipboard-arrow-down small"></i></a>
+						<a id="fb-share-btn" class="green-text text-accent-4 col s3" href="#">
+							<i class="small mdi mdi-facebook-box"></i>
+						</a>
+						<a id="tw-share-btn" class="green-text text-accent-4 col s3" href="#">
+							<i class="small mdi mdi-twitter-box"></i>
+						</a>
+						<a id="in-share-btn" class="green-text text-accent-4 col s3" href="#">
+							<i class="small mdi mdi-linkedin-box"></i>
+						</a>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<a id="shorten-another-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-reload right"></i>Shorten Another!</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="section">
-			<div class="container">
-				<h5>Custom URL</h5>
-				<div class="row">
-					<form id="custom-url-form" class="col s12" action="#" method="post">
-						<div class="row">
-							<div class="input-field col s6 condensed black-text">
-								<select name="domain">
-									<option value="http://go2l.ink/">http://go2l.ink/</option>
-									<option value="http://x.co/">http://x.co/</option>
-								</select>
-								<label>Domain</label>
-							</div>
-							<div class="input-field col s6">
-								<input name="code" id="custom-url-code" type="text" class="validate">
-								<label for="custom-url-code">Code</label>
-							</div>
-						</div>
-						<div class="row center">
-							<a id="custom-shorten-button" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Shorten Custom URL</a>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
 	</div>
+</div>
 </body>
 </html>
