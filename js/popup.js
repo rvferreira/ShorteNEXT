@@ -62,6 +62,7 @@ function setCardName(shortURL, shortenedURL){
 }
 
 function shortenAnother(){
+	$("#custom-url").val("");
 	$("#shortener-output").animate({
 		left: parseInt($("#content-wrapper").outerWidth())
 	}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
@@ -142,16 +143,24 @@ function startApp(){
 
 		$('select').material_select();
 
+		/*API Input*/
+
 		$('#shorten-btn').click(function(){
 			customShortenCurrentURL(checkGeneratedURL, decodeURI($('#custom-url-form').serialize()));
 		});
 
-		$('#shorten-another-btn').click(function(){
-			shortenAnother();
+		$('#long-url').click(function(){
+			$('#long-url').select();
 		});
+
+		/*API Output*/
 
 		$('#short-url').click(function(){
 			copyURLToClipboard(localStorage.shortURL);
+		});
+
+		$('#shorten-another-btn').click(function(){
+			shortenAnother();
 		});
 
 		$('#clipboard-copy-btn').click(function(){
@@ -180,7 +189,6 @@ function startApp(){
 			var inputKey = $('#manual-api-key-form').serialize().slice($('#manual-api-key-form').serialize().search("=")+1);
 			if (inputKey.length > 0){
 				localStorage.APIKey = inputKey;
-				localStorage.removeItem("loginPopup");
 				apiKeyObtained();
 			}
 		});
