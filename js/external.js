@@ -12,6 +12,10 @@ function parseWebPage(url, callback) {
 	xmlHttp.send();
 }
 
+function openAccountManagingTab(){
+	chrome.tabs.create({'url' : 'https://shortener.godaddy.com'});
+}
+
 function requestAPIKey(callback){
 	chrome.windows.create(
 
@@ -41,7 +45,7 @@ function requestAPIKey(callback){
 					});
 				}
 
-			);
+				);
 		});			
 
 	});
@@ -58,7 +62,6 @@ function shortenCurrentURL(callback){
 function customShortenCurrentURL(callback, optional_parameters){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + '&' + optional_parameters;
-		console.log(shortenAPIRequest);
 		localStorage.shortenedURLreq = tabs[0].url;
 		parseWebPage(shortenAPIRequest, callback);
 	});

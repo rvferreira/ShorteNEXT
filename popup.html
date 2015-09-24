@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="js/social_media.js"></script>
 	<script type="text/javascript" src="js/popup.js"></script>
 	<script type="text/javascript" src="js/external.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
 
 
 </head>
@@ -64,38 +65,57 @@
 
 	<div id="content-wrapper">
 
-		<div class="section">
-			<div class="container" >
-				<h5>Go Short</h5>
+		<nav>
+			<div class="nav-wrapper orange darken-2">
+				<div class="container">
+					<a href="#" class="left brand-logo" style="left:30%">Shortener</a>
+					<a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="mdi mdi-menu"></i></a>
+				</div>
+				<ul class="hide-on-med-and-down">
+					<li><a href="#">Your Account</a></li>
+					<li><a href="#">Logout<i class="small mdi mdi-logout right"></i></a></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+				<ul class="side-nav right" id="mobile-demo">
+					<li><a id="settings-btn" href="#"><i style="position:relative; top:15px; right:15px" class="mdi mdi-settings tooltipped" data-position="left" data-delay="30" data-tooltip="Manage your account"></i></a></li>
+					<li><div class="divider"></div></li>
+					<li><a id="logout-btn" href="#"><i style="position:relative; top:15px; right:13px" class="mdi mdi-logout tooltipped" data-position="left" data-delay="30" data-tooltip="Clear current APIKey"></i></a></li>
+					<li><div class="divider"></div></li>
+					<li><a id="help-btn" href="#"><i style="position:relative; top:15px; right:15px" class="mdi mdi-help tooltipped" data-position="left" data-delay="30" data-tooltip="Help"></i></a></li>
+				</ul>
 			</div>
-		</div>		
+		</nav>
+
 		<div id="shortener-ui">
 			<div id="shortener-input" class="mobile section">
-				<div class="container">
-						<form id="custom-url-form" action="#" method="post">
-							<div class="row">
-								<div class="input-field col s12">
-									<input value="Long URL" name="url" id="long-url" type="text" class="validate" required>
-									<label class="active" for="long-url">Long URL</label>
-								</div>
+				<form id="custom-url-form" action="#" method="post">
+					<div class="container">
+						<div class="row" style="position:relative;top:15px">
+							<div class="input-field col s12">
+								<input value="Long URL" name="url" id="long-url" type="text" class="validate" required>
+								<label class="active" for="long-url">Long URL</label>
 							</div>
-							<div class="row">
-								<div class="input-field col s6 condensed black-text">
-									<select name="domain">
-										<option value="http://go2l.ink/">http://go2l.ink/</option>
-										<option value="http://x.co/">http://x.co/</option>
-									</select>
-									<label>Domain</label>
-								</div>
-								<div class="input-field col s6">
-									<input value="" name="code" id="custom-url" type="text" class="validate">
-									<label for="custom-url">Custom URL</label>
-								</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s6 condensed black-text">
+								<select name="domain">
+									<option value="http://go2l.ink/">http://go2l.ink/</option>
+									<option value="http://x.co/">http://x.co/</option>
+								</select>
+								<label>Domain</label>
 							</div>
-							<div class="left">
-								<a id="shorten-btn" class="waves-effect waves-light btn green accent-4 tooltipped" data-position="right" data-delay="50" data-tooltip="Shorten Long URL"><i class="small mdi mdi-send right"></i>Go Short!</a>
+							<div class="input-field col s6">
+								<input value="" name="code" id="custom-url" type="text" class="validate">
+								<label for="custom-url">Custom URL</label>
 							</div>
-						</form>
+						</div>
+					</div>
+				</form>
+				<div class="divider"></div>
+				<div class="section">
+					<div class="container" style="position:relative;top:15px">
+						<a id="shorten-btn" class="waves-effect waves-light btn green accent-4 tooltipped" data-position="right" data-delay="50" data-tooltip="Shorten Long URL"><i class="small mdi mdi-send right"></i>Go Short!</a>
+					</div>
 				</div>
 			</div>
 
@@ -108,22 +128,23 @@
 				</div>
 				<div class="section center">
 					<div class="container row">
-						<a href="#" id="clipboard-copy-btn" class="green-text text-accent-4 col s3 tooltipped" data-position="top" data-delay="50" data-tooltip="Copy"><i class="mdi mdi-clipboard-arrow-down small"></i></a>
-						<a id="fb-share-btn" class="green-text text-accent-4 col s3 tooltipped" data-position="top" data-delay="50" data-tooltip="Facebook" href="#">
+						<a href="#" id="clipboard-copy-btn" class="green-text text-accent-4 col s3 tooltipped social-btn" data-position="top" data-delay="50" data-tooltip="Copy"><i class="mdi mdi-clipboard-arrow-down small"></i></a>
+						<a id="fb-share-btn" class="green-text text-accent-4 col s3 tooltipped social-btn" data-position="top" data-delay="50" data-tooltip="Facebook" href="#">
 							<i class="small mdi mdi-facebook-box"></i>
 						</a>
-						<a id="tw-share-btn" class="green-text text-accent-4 col s3 tooltipped" data-position="top" data-delay="50" data-tooltip="Twitter" href="#">
+						<a id="tw-share-btn" class="green-text text-accent-4 col s3 tooltipped social-btn" data-position="top" data-delay="50" data-tooltip="Twitter" href="#">
 							<i class="small mdi mdi-twitter-box"></i>
 						</a>
-						<a id="in-share-btn" class="green-text text-accent-4 col s3 tooltipped" data-position="top" data-delay="50" data-tooltip="LinkedIn" href="#">
+						<a id="in-share-btn" class="green-text text-accent-4 col s3 tooltipped social-btn" data-position="top" data-delay="50" data-tooltip="LinkedIn" href="#">
 							<i class="small mdi mdi-linkedin-box"></i>
 						</a>
 					</div>
 				</div>
+				<div class="divider"></div>
 				<div class="section">
 					<div class="container">
 						<div class="col s12">
-							<a id="shorten-another-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-reload right"></i>Shorten Another!</a>
+							<a style="position:relative; top:15px" id="shorten-another-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-reload right"></i>Shorten Another!</a>
 						</div>
 					</div>
 				</div>

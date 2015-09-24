@@ -1,14 +1,3 @@
-TOAST_TIME = 1400
-CARD_SWITCH_TIME = 300
-FADE_TRANSITIONS_TIME = 400
-NULL_URL = "none"
-
-function resetApp(){
-	localStorage.shortenedURL = NULL_URL;
-	localStorage.shortURL = NULL_URL;
-	location.reload();
-}
-
 function apiKeyObtained(){
 	if (localStorage.validAPIKey != 1){
 		localStorage.validAPIKey = 1;
@@ -20,45 +9,11 @@ function apiKeyObtained(){
 	}
 }
 
-function copyURLToClipboard(shortURL) {
-	if (shortURL != NULL_URL) {
-		var copyFrom = $('<textarea/>');
-		copyFrom.text(shortURL);
-		$('body').append(copyFrom);
-		copyFrom.select();
-		document.execCommand('copy');
-		copyFrom.remove();
-		Materialize.toast('Copied!', TOAST_TIME);
-	} else {
-		Materialize.toast('Nothing to copy!', TOAST_TIME);
-	}
-}
-
-function setCardName(shortURL, shortenedURL){
-	$('#short-url').text(shortURL);
-	$('#shortened-url').text(shortenedURL);
-
-	$("#shortener-input").animate({
-		left: parseInt(-$("#content-wrapper").outerWidth())
-	}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
-		fix_size = parseInt($("#shortener-ui").outerHeight());
-		console.log(fix_size);
-		$("#shortener-input").hide();
-
-		$("#shortener-output").animate({
-			left: parseInt($("#content-wrapper").outerWidth())
-		}, 0, "easeInOutCubic", function(){
-
-			$("#shortener-output").show();
-			// $("#shortener-ui").height(fix_size);
-			$("#shortener-output").animate({
-				left: 0
-			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
-			});
-
-		});
-
-	});	
+function setAPIKeyInvalid(){
+	localStorage.validAPIKey = 0;
+	$("#content-wrapper").fadeOut(FADE_TRANSITIONS_TIME, function(){
+		resetApp();
+	});
 }
 
 function shortenAnother(){
@@ -82,16 +37,37 @@ function shortenAnother(){
 	});	
 }
 
+function setOutputContent(shortURL, shortenedURL){
+	$('#short-url').text(shortURL);
+	$('#shortened-url').text(shortenedURL);
+
+	$("#shortener-input").animate({
+		left: parseInt(-$("#content-wrapper").outerWidth())
+	}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
+
+		$("#shortener-input").hide();
+		$("#shortener-output").animate({
+			left: parseInt($("#content-wrapper").outerWidth())
+		}, 0, "easeInOutCubic", function(){
+
+			$("#shortener-output").show();
+			$("#shortener-output").animate({
+				left: 0
+			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
+			});
+
+		});
+
+	});	
+}
+
 function checkGeneratedURL(newName){
 	try {
 		var obj = JSON.parse(newName);
 	} catch (e) {
 
 		if (newName == "Unauthorized") {
-			localStorage.validAPIKey = 0;
-			$("#content-wrapper").fadeOut(FADE_TRANSITIONS_TIME, function(){
-				resetApp();
-			});
+			setAPIKeyInvalid();
 
 			return;
 		}
@@ -99,7 +75,7 @@ function checkGeneratedURL(newName){
 		localStorage.shortenedURL = localStorage.shortenedURLreq;
 		localStorage.shortURL = newName;
 
-		setCardName(localStorage.shortURL, localStorage.shortenedURL)
+		setOutputContent(localStorage.shortURL, localStorage.shortenedURL)
 
 		return;
 	}
@@ -107,17 +83,24 @@ function checkGeneratedURL(newName){
 	localStorage.shortenedURL = NULL_URL;
 	localStorage.shortURL = NULL_URL;
 
-	setCardName("Error!", obj.fields[0].code);
+	if (obj.fields[0].code == "INVALID_TARGET_URL")	{
+		$('#long-url').removeClass('valid');
+		$('#long-url').addClass('invalid');
+	}
+	else if (obj.fields[0].code == "INVALID_CODE")	{
+		$('#custom-url').removeClass('valid');
+		$('#custom-url').addClass('invalid');
+	}
+	else setOutputContent("Error!", obj.fields[0].code);
 
 }
 
 function startApp(){
 
 	if (localStorage.validAPIKey == 1 && localStorage.getItem("APIKey") != null && localStorage.APIKey!='Unauthorized'){
-		
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-			$("#long-url").val(tabs[0].url);
-		});
+
+		initAPIKeyForm();
+		initAPIKeyBtns();
 
 		$("#non-api-content-wrapper").hide();
 		if (localStorage.recentKey == 1){
@@ -130,58 +113,10 @@ function startApp(){
 			$("#content-wrapper").show();
 		}
 
-		/*Init text fields*/
-		if (localStorage.shortURL && localStorage.shortURL != NULL_URL){	
-			$('#short-url').text(localStorage.shortURL);
-			$('#shortened-url').text(localStorage.shortenedURL);	
-		} else {
-			$('#short-url').text("http://x.co/shortlnk");
-			$('#shortened-url').text("http://www.full.link.example");	
-		}
-
-		/*BTNs init*/
-
+		/*Init Select Box*/
 		$('select').material_select();
 
-		/*API Input*/
-
-		$('#shorten-btn').click(function(){
-			customShortenCurrentURL(checkGeneratedURL, decodeURI($('#custom-url-form').serialize()));
-		});
-
-		$('#long-url').click(function(){
-			$('#long-url').select();
-		});
-
-		/*API Output*/
-
-		$('#short-url').click(function(){
-			copyURLToClipboard(localStorage.shortURL);
-		});
-
-		$('#shorten-another-btn').click(function(){
-			shortenAnother();
-		});
-
-		$('#clipboard-copy-btn').click(function(){
-			copyURLToClipboard(localStorage.shortURL);
-		});
-
-		/*External APIs*/
-
-		$('#fb-share-btn').click(function(){
-			fbShare(localStorage.shortURL);
-		});
-
-		$('#tw-share-btn').click(function(){
-			twShare(localStorage.shortURL);
-		});
-
-		$('#in-share-btn').click(function(){
-			inShare(localStorage.shortURL);
-		});
-
-	} else chrome.tabs.query({active:true, currentWindow:true}, function(tabs){
+	} else {
 
 		/*Non api key app routine*/
 
@@ -203,14 +138,12 @@ function startApp(){
 		$("body").animate({height:560}, FADE_TRANSITIONS_TIME, function(){
 			$("#non-api-content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
 		});
-	});
-
+	}
 }
 
 document.addEventListener('DOMContentLoaded', function(){ 
+	$("#content-wrapper").hide();
 	$("#non-api-content-wrapper").hide();
 	$("#shortener-output").hide();
-	$("#content-wrapper").hide();
-	localStorage.appStarted = 0;
 	startApp();
 });
