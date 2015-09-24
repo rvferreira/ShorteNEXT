@@ -86,10 +86,12 @@ function checkGeneratedURL(newName){
 	if (obj.fields[0].code == "INVALID_TARGET_URL")	{
 		$('#long-url').removeClass('valid');
 		$('#long-url').addClass('invalid');
+		Materialize.toast("Invalid Long URL", TOAST_TIME);
 	}
 	else if (obj.fields[0].code == "INVALID_CODE")	{
 		$('#custom-url').removeClass('valid');
 		$('#custom-url').addClass('invalid');
+		Materialize.toast("Invalid Code", TOAST_TIME);
 	}
 	else setOutputContent("Error!", obj.fields[0].code);
 
