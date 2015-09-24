@@ -91,13 +91,17 @@ function checkGeneratedURL(newName){
 	else if (obj.fields[0].code == "INVALID_CODE")	{
 		$('#custom-url').removeClass('valid');
 		$('#custom-url').addClass('invalid');
-		Materialize.toast("Invalid Code", TOAST_TIME);
+		Materialize.toast("Custom URL code taken", TOAST_TIME);
 	}
 	else setOutputContent("Error!", obj.fields[0].code);
 
 }
 
 function startApp(){
+
+	$("form input").on("keypress", function(e) {
+		return (e.keyCode != 13);
+	});
 
 	if (localStorage.validAPIKey == 1 && localStorage.getItem("APIKey") != null && localStorage.APIKey!='Unauthorized'){
 

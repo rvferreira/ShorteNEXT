@@ -13,7 +13,7 @@ function parseWebPage(url, callback) {
 }
 
 function openAccountManagingTab(){
-	chrome.tabs.create({'url' : 'https://shortener.godaddy.com'});
+	chrome.tabs.create({'url' : 'https://shortener.godaddy.com/settings'});
 }
 
 function requestAPIKey(callback){
