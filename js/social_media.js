@@ -21,11 +21,8 @@ function share(jsonObj, shortURL){
 
 function fbShare(shortURL) {
 	var reqObj = {
-		'url' : "https://www.facebook.com/dialog/share?"
-		+ "display=popup&"
-		+ "app_id=185372198461156&"
-		+ "href=" + encodeURI(shortURL)
-		+ "&redirect_uri=https://www.facebook.com"
+		'url' : "https://www.facebook.com/sharer/sharer.php?"
+		+ "u=" + encodeURI(shortURL)
 	};
 	share(reqObj, shortURL)
 }

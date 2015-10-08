@@ -110,9 +110,8 @@ function startApp(){
 
 		$("#non-api-content-wrapper").hide();
 		if (localStorage.recentKey == 1){
-			$("body").animate({height:350}, FADE_TRANSITIONS_TIME, function(){
-				$("#content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
-			});
+			$("body").css('height',350);
+			$("#content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
 			localStorage.removeItem("recentKey");
 		}
 		else {
@@ -120,6 +119,12 @@ function startApp(){
 		}
 
 		/*Init Select Box*/
+		$.each(JSON.parse(localStorage.domains), function(index, value){
+			$('#domain-opt').append($('<option/>', { 
+				value: value,
+				text : value 
+			}));
+		});
 		$('select').material_select();
 
 	} else {
@@ -130,20 +135,19 @@ function startApp(){
 			var inputKey = $('#manual-api-key-form').serialize().slice($('#manual-api-key-form').serialize().search("=")+1);
 			if (inputKey.length > 0){
 				localStorage.APIKey = inputKey;
-				apiKeyObtained();
+				fetchDomainsList(inputKey, apiKeyObtained);
 			}
 		});
 
 		$('#login-btn').click(function(){
-			requestAPIKey(apiKeyObtained);
+			requestAPIKey(fetchDomainsList, apiKeyObtained);
 		});
 
 		localStorage.shortenedURL = NULL_URL;
 		localStorage.shortURL = NULL_URL;
 
-		$("body").animate({height:560}, FADE_TRANSITIONS_TIME, function(){
-			$("#non-api-content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
-		});
+		$("body").css('height',560);
+		$("#non-api-content-wrapper").fadeIn(FADE_TRANSITIONS_TIME);
 	}
 }
 

@@ -16,7 +16,21 @@ function openAccountManagingTab(){
 	chrome.tabs.create({'url' : 'https://shortener.godaddy.com/settings'});
 }
 
-function requestAPIKey(callback){
+function fetchDomainsList(APIKey, validAPIKeycallback){
+	parseWebPage("https://shortener.godaddy.com/v1/domains?apikey=" + APIKey, function(res){
+		if (res != 'Unauthorized'){
+			localStorage.domains = res;
+			validAPIKeycallback();
+		}
+		else{
+			$('#apy-key-manual-input').removeClass('valid');
+			$('#apy-key-manual-input').addClass('invalid');
+			Materialize.toast("Invalid APIKey!", TOAST_TIME * 1.5);
+		}
+	});
+}
+
+function requestAPIKey(testAPIKeyCallback, validAPIKeyCallback){
 	chrome.windows.create(
 
 	{
@@ -37,8 +51,10 @@ function requestAPIKey(callback){
 								if (res != 'Unauthorized'){
 									localStorage.APIKey = res;
 									chrome.tabs.onUpdated.removeListener(fetchAPIKey);
-									chrome.windows.remove(popupWindow.id);
-									callback(res);
+									testAPIKeyCallback(res, validAPIKeyCallback);
+									chrome.windows.get(popupWindow.id, function(){
+										if (!chrome.runtime.lastError) chrome.windows.remove(popupWindow.id);
+									});
 								}
 							});
 						}
@@ -48,14 +64,6 @@ function requestAPIKey(callback){
 				);
 		});			
 
-	});
-}
-
-function shortenCurrentURL(callback){
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-		shortenAPIRequest = "https://shortener.godaddy.com/v1/?apikey=" + localStorage.APIKey + "&url=" + encodeURI(tabs[0].url);
-		localStorage.shortenedURLreq = tabs[0].url;
-		parseWebPage(shortenAPIRequest, callback);
 	});
 }
 

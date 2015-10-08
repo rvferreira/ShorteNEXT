@@ -21,16 +21,16 @@
 </head>
 <body>
 	<div id="non-api-content-wrapper">
-		<div class="section">
+		<div class="section no-pad-bot">
 			<div class="container">
 				<h5 style="display:inline">Oops!</h5>
-				<h6>It seems like you don't have a valid APIKey.</h6>
+				<h6>It seems like you're not logged in.</h6>
 			</div>
 		</div>
 		
 		<div class="section">
 			<div class="container">
-				<p class="center flow-text orange-text text-lighten-1">If you want us to fetch that for you, please click the button below and login into your GoDaddy account.</p>
+				<p class="center flow-text orange-text text-lighten-1">Please click the button below and login into your GoDaddy account to start using the Shortener Extension.</p>
 			</div>
 			<div class="container center">
 				<a id="login-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-login right"></i>Login</a>
@@ -40,12 +40,12 @@
 
 		<div class="section">
 			<div class="container">
-				<h6>Or enter it manually:</h6>
+				<h6>Or enter an APIKey manually:</h6>
 				<div class="row">
 					<form id="manual-api-key-form" class="col s12">
 						<div class="row">
 							<div class="input-field col s10 offset-s1">
-								<input name="apy-key-manual-input" id="custom-url-code" type="text" class="validate">
+								<input name="apy-key-manual-input" id="apy-key-manual-input" type="text" class="validate">
 								<label for="custom-url-code">APIKey</label>
 							</div>
 						</div>
@@ -69,19 +69,8 @@
 			<div class="nav-wrapper orange darken-2">
 				<div class="container">
 					<a href="#" class="left thin brand-logo" style="left:30%">Shortener</a>
-					<a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="mdi mdi-menu"></i></a>
+					<a href="#" id="logout-btn" class="right button-collapse tooltipped"  data-position="bottom" data-delay="20" data-tooltip="Logout"><i class="mdi mdi-logout"></i></a>
 				</div>
-				<ul class="hide-on-med-and-down">
-					<li><a href="#">Your Account</a></li>
-					<li><a href="#">Logout<i class="small mdi mdi-logout right"></i></a></li>
-					<li><a href="#">Help</a></li>
-				</ul>
-				<ul class="side-nav right" id="mobile-demo">
-					<li class=" tooltipped" data-position="left" data-delay="30" data-tooltip="Manage your account" ><a id="settings-btn" href="#"><i style="position:relative; top:15px; right:15px" class="mdi mdi-settings"></i></a></li>
-					<li><div class="divider"></div></li>
-					<li class = "tooltipped" data-position="left" data-delay="30" data-tooltip="Clear current APIKey"><a id="logout-btn" href="#"><i style="position:relative; top:15px; right:13px" class="mdi mdi-logout"></i></a></li>
-					<li><div class="divider"></div></li>
-					<li class="tooltipped" data-position="left" data-delay="30" data-tooltip="Help"><a id="help-btn" href="#"><i style="position:relative; top:15px; right:15px" class="mdi mdi-help"></i></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -98,9 +87,7 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s6 condensed black-text">
-								<select name="domain">
-									<option value="http://go2l.ink/">http://go2l.ink/</option>
-									<option value="http://x.co/">http://x.co/</option>
+								<select id="domain-opt" name="domain">
 								</select>
 								<label>Domain</label>
 							</div>
@@ -114,7 +101,7 @@
 				<div class="divider"></div>
 				<div class="section">
 					<div class="container" style="position:relative;top:15px">
-						<a id="shorten-btn" class="waves-effect waves-light btn green accent-4 tooltipped" data-position="right" data-delay="50" data-tooltip="Shorten Long URL"><i class="small mdi mdi-send right"></i>Go Short!</a>
+						<a id="shorten-btn" class="waves-effect waves-light btn green accent-4"><i class="small mdi mdi-send right"></i>Go Short!</a>
 					</div>
 				</div>
 			</div>

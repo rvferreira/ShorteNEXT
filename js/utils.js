@@ -18,19 +18,10 @@ function copyURLToClipboard(shortURL) {
 }
 
 function initAPIKeyBtns(){
-	$(".button-collapse").sideNav({edge: 'right', menuWidth: 60});
 
 	/*SideNav*/
-	$('#settings-btn').click(function(){
-		openAccountManagingTab();
-	});
-
 	$('#logout-btn').click(function(){
 		setAPIKeyInvalid();
-	});
-
-	$('#help-btn').click(function(){
-		//TODO for landing page, maybe?
 	});
 
 	/*API Input*/
