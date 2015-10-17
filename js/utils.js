@@ -26,7 +26,17 @@ function initAPIKeyBtns(){
 
 	/*API Input*/
 
+
+	function resetApp(){
+		location.reload();
+	}
+
+	$('#refresh-domain-btn').click(function(){
+		fetchDomainsList(localStorage.APIKey, resetApp);
+	});
+
 	$('#shorten-btn').click(function(){
+		localStorage.defaultDomain = ($("#domain-opt option:selected").text());
 		customShortenCurrentURL(checkGeneratedURL, $('#custom-url-form [id!="long-url"]').serialize() + '&' + $('#custom-url-form #long-url').serialize());
 	});
 
@@ -69,13 +79,13 @@ function initAPIKeyForm(){
 		$("#long-url").val(tabs[0].url);
 	});
 	
-	if (localStorage.shortURL && localStorage.shortURL != NULL_URL){	
-		$('#short-url').text(localStorage.shortURL);
-		$('#shortened-url').text(localStorage.shortenedURL);	
-	} else {
-		$('#short-url').text("http://x.co/shortlnk");
-		$('#shortened-url').text("http://www.full.link.example");	
-	}
+	// if (localStorage.shortURL && localStorage.shortURL != NULL_URL){	
+	// 	$('#short-url').text(localStorage.shortURL);
+	// 	$('#shortened-url').text(localStorage.shortenedURL);	
+	// } else {
+	// 	$('#short-url').text("http://x.co/shortlnk");
+	// 	$('#shortened-url').text("http://www.full.link.example");	
+	// }
 }
 
 function resetApp(){

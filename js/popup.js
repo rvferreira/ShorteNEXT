@@ -125,7 +125,8 @@ function startApp(){
 				text : value 
 			}));
 		});
-		$('select').material_select();
+		if (localStorage.defaultDomain) $('#domain-opt').val(localStorage.defaultDomain);
+		$('#domain-opt').material_select();
 
 	} else {
 
