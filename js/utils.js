@@ -31,7 +31,8 @@ function initAPIKeyBtns(){
 		location.reload();
 	}
 
-	$('#refresh-domain-btn').click(function(){
+	$('#refresh-domain-btn').bind('click', function(){
+		$(this).unbind('click');
 		fetchDomainsList(localStorage.APIKey, resetApp);
 	});
 
