@@ -1,7 +1,7 @@
 function apiKeyObtained(){
 	if (localStorage.validAPIKey != 1){
 		localStorage.validAPIKey = 1;
-		Materialize.toast("We've got an APIKey!", TOAST_TIME * 1.5);
+		Materialize.toast("You have logged in!", TOAST_TIME * 1.5);
 		$("#non-api-content-wrapper").fadeTo(FADE_TRANSITIONS_TIME, 0.0, function(){
 			localStorage.recentKey = 1;
 			startApp();
@@ -30,7 +30,9 @@ function shortenAnother(){
 			$("#shortener-input").show();
 			$("#shortener-input").animate({
 				left: 0
-			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){});
+			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
+				setShortenAnotherBtn();
+			});
 
 		});
 
@@ -54,6 +56,7 @@ function setOutputContent(shortURL, shortenedURL){
 			$("#shortener-output").animate({
 				left: 0
 			}, CARD_SWITCH_TIME, "easeInOutCubic", function(){
+				setShortenBtn();
 			});
 
 		});
@@ -125,7 +128,11 @@ function startApp(){
 				text : value 
 			}));
 		});
-		if (localStorage.defaultDomain) $('#domain-opt').val(localStorage.defaultDomain);
+		// if (localStorage.defaultDomain.indexOf(JSON.parse(localStorage.domains)) >= 0) $('#domain-opt').val(localStorage.defaultDomain);
+		console.log(localStorage.defaultDomain);
+		console.log(JSON.parse(localStorage.domains));
+		console.log(JSON.parse(localStorage.domains).indexOf(localStorage.defaultDomain));
+		if (JSON.parse(localStorage.domains).indexOf(localStorage.defaultDomain) >= 0) $('#domain-opt').val(localStorage.defaultDomain);
 		$('#domain-opt').material_select();
 
 	} else {

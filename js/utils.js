@@ -3,6 +3,21 @@ CARD_SWITCH_TIME = 300
 FADE_TRANSITIONS_TIME = 400
 NULL_URL = "none"
 
+function setShortenBtn(){
+	$('#shorten-btn').one('click', function(){
+		if(localStorage.shortenBtnClickable){
+			localStorage.defaultDomain = ($("#domain-opt option:selected").text());
+			customShortenCurrentURL(checkGeneratedURL, $('#custom-url-form [id!="long-url"]').serialize() + '&' + $('#custom-url-form #long-url').serialize());
+		}
+	});
+}
+
+function setShortenAnotherBtn(){
+	$('#shorten-another-btn').one('click', function(){
+		shortenAnother();
+	});
+}
+
 function copyURLToClipboard(shortURL) {
 	if (shortURL != NULL_URL) {
 		var copyFrom = $('<textarea/>');
@@ -18,6 +33,7 @@ function copyURLToClipboard(shortURL) {
 }
 
 function initAPIKeyBtns(){
+	localStorage.shortenBtnClickable = true;
 
 	/*SideNav*/
 	$('#logout-btn').click(function(){
@@ -25,8 +41,6 @@ function initAPIKeyBtns(){
 	});
 
 	/*API Input*/
-
-
 	function resetApp(){
 		location.reload();
 	}
@@ -36,10 +50,7 @@ function initAPIKeyBtns(){
 		fetchDomainsList(localStorage.APIKey, resetApp);
 	});
 
-	$('#shorten-btn').click(function(){
-		localStorage.defaultDomain = ($("#domain-opt option:selected").text());
-		customShortenCurrentURL(checkGeneratedURL, $('#custom-url-form [id!="long-url"]').serialize() + '&' + $('#custom-url-form #long-url').serialize());
-	});
+	setShortenBtn();
 
 	$('#long-url').click(function(){
 		$('#long-url').select();
@@ -52,9 +63,7 @@ function initAPIKeyBtns(){
 		copyURLToClipboard(localStorage.shortURL);
 	});
 
-	$('#shorten-another-btn').click(function(){
-		shortenAnother();
-	});
+	setShortenAnotherBtn();
 
 	$('#clipboard-copy-btn').click(function(){
 		copyURLToClipboard(localStorage.shortURL);
@@ -79,14 +88,6 @@ function initAPIKeyForm(){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 		$("#long-url").val(tabs[0].url);
 	});
-	
-	// if (localStorage.shortURL && localStorage.shortURL != NULL_URL){	
-	// 	$('#short-url').text(localStorage.shortURL);
-	// 	$('#shortened-url').text(localStorage.shortenedURL);	
-	// } else {
-	// 	$('#short-url').text("http://x.co/shortlnk");
-	// 	$('#shortened-url').text("http://www.full.link.example");	
-	// }
 }
 
 function resetApp(){
