@@ -45,18 +45,25 @@ function requestAPIKey(testAPIKeyCallback, validAPIKeyCallback){
 			chrome.tabs.onUpdated.addListener(
 
 				function fetchAPIKey(){
-					chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'auth_idp'}, function(cookie){
+					chrome.cookies.get({"url": 'https://shortener.godaddy.com', "name": 'info_idp'}, function(cookie){
 						if (cookie) {
-							parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
-								if (res != 'Unauthorized'){
-									localStorage.APIKey = res;
-									chrome.tabs.onUpdated.removeListener(fetchAPIKey);
-									testAPIKeyCallback(res, validAPIKeyCallback);
-									chrome.windows.get(popupWindow.id, function(){
-										if (!chrome.runtime.lastError) chrome.windows.remove(popupWindow.id);
-									});
-								}
-							});
+							
+							var old_jti = localStorage.jti;
+							cookie_info = JSON.parse(decodeURIComponent(cookie.value));
+							localStorage.jti = cookie_info.jti;
+
+							if (!(old_jti == localStorage.jti)){
+								parseWebPage("https://shortener.godaddy.com/v1/apikey", function(res){
+									if (res != 'Unauthorized'){
+										localStorage.APIKey = res;
+										chrome.tabs.onUpdated.removeListener(fetchAPIKey);
+										testAPIKeyCallback(res, validAPIKeyCallback);
+										chrome.windows.get(popupWindow.id, function(){
+											if (!chrome.runtime.lastError) chrome.windows.remove(popupWindow.id);
+										});
+									}
+								});
+							}
 						}
 					});
 				}

@@ -96,7 +96,37 @@ function checkGeneratedURL(newName){
 		$('#custom-url').addClass('invalid');
 		Materialize.toast("Custom URL code taken", TOAST_TIME);
 	}
-	else setOutputContent("Error!", obj.fields[0].code);
+	else {
+		var message = obj.fields[0].code;
+		
+		switch (obj.fields[0].code) {
+			case "SHOPPER_NO_PURCHASE":
+				message = "You still don't have any purchases";
+				break;
+
+			case "INVALID_DOMAIN":
+				message = "Selected Domain is not valid";
+				break;
+
+			case "BLOCKED_DOMAIN":
+				message = "Selected Domain is blocked";
+				break;
+
+			case "":
+				message = "";
+				break;
+
+			case "NONEXIST_DOMAIN":
+				message = "Selected Domain doesn't exist";
+				break;
+
+			case "DOMAIN_MAX":
+				message = "You have created too many links";
+				break;
+		}
+
+		setOutputContent("Error!", message);
+	}
 
 }
 
@@ -128,10 +158,7 @@ function startApp(){
 				text : value 
 			}));
 		});
-		// if (localStorage.defaultDomain.indexOf(JSON.parse(localStorage.domains)) >= 0) $('#domain-opt').val(localStorage.defaultDomain);
-		console.log(localStorage.defaultDomain);
-		console.log(JSON.parse(localStorage.domains));
-		console.log(JSON.parse(localStorage.domains).indexOf(localStorage.defaultDomain));
+		
 		if (JSON.parse(localStorage.domains).indexOf(localStorage.defaultDomain) >= 0) $('#domain-opt').val(localStorage.defaultDomain);
 		$('#domain-opt').material_select();
 
